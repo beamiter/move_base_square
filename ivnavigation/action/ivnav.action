@@ -1,0 +1,5 @@
+uint32 destination_pos
+---
+uint32 actual_pos
+---
+float32 percent_complete
