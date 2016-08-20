@@ -4,12 +4,12 @@
 ivnav::ivnav(ros::NodeHandle nh): move_base("move_base", true)
 {
   q.setRPY(0, 0, 0);
-  float square_size = 1.0;
+  float square_size = 1.5;
   float euler_angles[4] = {pi / 2, pi, 3 * pi / 2, 0.0};
-  ivnav::transform_marker(square_size, 0.0, 0.0, 0.0, 0.0, euler_angles[0]);
+  ivnav::transform_marker(square_size, 0.0-0.5, 0.0, 0.0, 0.0, euler_angles[0]);
   ivnav::transform_marker(square_size, square_size, 0.0, 0.0, 0.0, euler_angles[1]);
-  ivnav::transform_marker(0.0, square_size, 0.0, 0.0, 0.0, euler_angles[2]);
-  ivnav::transform_marker(0.0, 0.0, 0.0, 0.0, 0.0, euler_angles[3]);
+  ivnav::transform_marker(0.0-0.5, square_size, 0.0, 0.0, 0.0, euler_angles[2]);
+  ivnav::transform_marker(0.0-0.5, 0.0-0.5, 0.0, 0.0, 0.0, euler_angles[3]);
   ivnav::init_markers();
   ivnav::vel_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel", 5, true);
   // while(!move_base.waitForServer(ros::Duration(5)))
@@ -17,7 +17,7 @@ ivnav::ivnav(ros::NodeHandle nh): move_base("move_base", true)
   //     ROS_INFO("Waiting for move base action server to start.");
   // }
   ROS_INFO("Waiting for move base action server to start.");
-  move_base.waitForServer(ros::Duration(3));
+  ivnav::move_base.waitForServer(ros::Duration(6));
   ROS_INFO("Move base action server started, starting navigation test");
 
   ros::Rate loop_rate(1.0);
@@ -107,7 +107,7 @@ void ivnav::move_goal(move_base_msgs::MoveBaseGoal goal)
 {
   ivnav::move_base.sendGoal(goal, boost::bind(&ivnav::doneCb, this, _1),
                             boost::bind(&ivnav::activeCb, this), boost::bind(&ivnav::feedbackCb, this));
-  bool finished_before_timeout = move_base.waitForResult(ros::Duration(5.0));
+  bool finished_before_timeout = move_base.waitForResult(ros::Duration(20.0));
   if (finished_before_timeout) {
     actionlib::SimpleClientGoalState state = move_base.getState();
     ROS_INFO("Action finished: %s", state.toString().c_str());

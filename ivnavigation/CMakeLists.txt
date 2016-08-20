@@ -250,7 +250,11 @@ add_executable(pointcloud_pub src/pointcloud_pub.cpp)
 add_dependencies(pointcloud_pub ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(pointcloud_pub ${catkin_LIBRARIES})
 
-add_executable(ivnavigation src/ivnavigation.cpp src/ivnav.cpp)
+add_executable(ivnavigation src/ivnavigation.cpp src/ivnav.cpp src/ivamcl.cpp)
 add_dependencies(ivnavigation ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(ivnavigation ${catkin_LIBRARIES})
+
+add_executable(subtest src/subtest.cpp)
+add_dependencies(subtest ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(subtest ${catkin_LIBRARIES})
 
