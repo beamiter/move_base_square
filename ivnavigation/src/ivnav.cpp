@@ -88,8 +88,14 @@ void ivnav::init_markers()
 
 void ivnav::shutdown()
 {
+  geometry_msgs::Twist vel;
+  vel.angular.x = vel.angular.y = vel.angular.z = 0.0;
+  vel.linear.x = vel.linear.y = vel.linear.z = 0.0;
   ROS_INFO("stoppint the robot...");
   ivnav::move_base.cancelGoal();
+  ivnav::vel_pub.publish<geometry_msgs::Twist>(vel);
+  ros::Duration(1.0).sleep(); 
+  
 }
 
 void ivnav::doneCb(const actionlib::SimpleClientGoalState& state)

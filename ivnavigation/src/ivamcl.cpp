@@ -4,7 +4,7 @@
 using namespace std;
 ivamcl::ivamcl(ros::NodeHandle nh):move_base("move_base", true)
 {
-  // float looprate = 1.0;
+   float looprate = 1.0;
   nh.param("rest_time",rest_time,5);
   nh.param("fake_test",fake_test,false);
 
@@ -45,9 +45,10 @@ ivamcl::ivamcl(ros::NodeHandle nh):move_base("move_base", true)
     std::cout << FYEL("************waiting for the initialization!!*****************") << std::endl;
   }
   ROS_DEBUG("Starting amcl navigation test");
-  // ros::Rate loop_rate(looprate);
+  ros::Rate loop_rate(looprate);
   while (ros::ok())
   {
+    ros::spinOnce();
     if (i == n_locations)
     {
       
@@ -63,6 +64,7 @@ ivamcl::ivamcl(ros::NodeHandle nh):move_base("move_base", true)
     }
     location = vsequence.at(i);
     if (initial_pose.header.frame_id == "map")
+    // if (initial_pose.header.stamp == ros::Time(0))
     {
       distance = sqrt(pow(vpose.at(location).position.x-
 			      vpose.at(last_location).position.x, 2)+
@@ -77,6 +79,7 @@ ivamcl::ivamcl(ros::NodeHandle nh):move_base("move_base", true)
                       pow(vpose.at(location).position.y-
 			      initial_pose.pose.pose.position.y, 2));
       initial_pose.header.frame_id = "map";
+      // initial_pose.header.stamp == ros::Time(0);
     }
     last_location = location;
     i+=1;
@@ -95,10 +98,10 @@ ivamcl::ivamcl(ros::NodeHandle nh):move_base("move_base", true)
     ROS_INFO_STREAM("Success so far: "<<n_successes<<"/"<<n_goals
 		    <<"="<<(n_successes/n_goals)<<std::endl
 		    <<"Running time: "<<setiosflags(ios::fixed)<<setprecision(2)<<running_time<<" min"<<std::endl
-		    <<"Single traveled distance: "<<distance_traveled<<" m\t"<<"Total distance traveled: "<<distance<<" m"<<std::endl
+		    <<"Single traveled distance: "<<distance<<" m\t"<<"Total distance traveled: "<<distance_traveled<<" m"<<std::endl
 		    << FBLU("The action lasts for: ")<<setprecision(2)<<total_time<<" min"<<std::endl);
-    // loop_rate.sleep();   
-    ros::Duration(rest_time).sleep();
+     loop_rate.sleep();   
+    //ros::Duration(rest_time).sleep();
   }
   
 }

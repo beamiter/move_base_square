@@ -127,6 +127,7 @@ private:
   void move_goal(move_base_msgs::MoveBaseGoal goal);
   
   
+  
 protected:
   
   

@@ -61,6 +61,7 @@ private:
   void doneCb(const actionlib::SimpleClientGoalState& state);
   void activeCb();
   void feedbackCb();
+  
 
   void transform_marker(const double& x, const double& y, const double& z,
 			const double& roll, const double& pitch, const double& yaw);

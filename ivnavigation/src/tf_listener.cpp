@@ -19,6 +19,7 @@ void transformPoint(const tf::TransformListener& listener){
     geometry_msgs::PointStamped base_point;
     listener.transformPoint("base_link", laser_point, base_point);
 
+
     ROS_INFO("base_laser: (%.2f, %.2f. %.2f) -----> base_link: (%.2f, %.2f, %.2f) at time %.2f",
         laser_point.point.x, laser_point.point.y, laser_point.point.z,
         base_point.point.x, base_point.point.y, base_point.point.z, base_point.header.stamp.toSec());
