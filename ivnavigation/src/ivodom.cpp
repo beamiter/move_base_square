@@ -30,8 +30,8 @@ ivodom::ivodom(ros::NodeHandle nh)
       
     }
   }
-  // for (int i=0; i<2; i++)
-  while (ros::ok())
+  for (int i=0; i<20; i++)
+  // while (ros::ok())
   {
     move_cmd.linear.x = linear_speed;
     get_odom();
@@ -111,9 +111,10 @@ void ivodom::shutdown()
 
 void ivodom::init_vel()
 {
-  memset(&move_cmd, 0.0, sizeof(move_cmd));
-  //move_cmd.angular.x = move_cmd.angular.y = move_cmd.angular.z = 0.0;
-  //move_cmd.linear.x =move_cmd.linear.x = move_cmd.linear.x = 0.0;
+  memset(&move_cmd, 0,sizeof(move_cmd));
+  ROS_INFO_STREAM(move_cmd.angular.z<<",\t"<<move_cmd.linear.x);
+  // move_cmd.angular.x = move_cmd.angular.y = move_cmd.angular.z = 0.0;
+  // move_cmd.linear.x = move_cmd.linear.x = move_cmd.linear.x = 0.0;
 }
 
 float ivodom::normalize_angle(float angle)
