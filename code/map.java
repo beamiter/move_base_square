@@ -43,8 +43,8 @@ public class map{
     public static final String obsname = "obstacles.cfg";
     public static final String triname = "triangle.cfg";
     public static int cell[] = {50,100};
-    public static float start[] = {(float)1.0, (float)1.0, (float)0.0};
-    public static float end[] = {(float)19.0, (float)9.0, (float)0.0};
+    public static float start[] = {(float)2.0, (float)5.0, (float)0.0};
+    public static float end[] = {(float)18.0, (float)5.0, (float)0.0};
     public static int grid[][] = new int[map.cell[0]][map.cell[1]];
     public static int obsthresh = 254;
     public static int insribed_thresh = 253;
@@ -566,7 +566,7 @@ public class map{
         char i = 'i';
         char c = 'c';
 
-        // addobs(obsf,50,25,8,10,o);
+        addobs(obsf,50,25,8,10,c);
         // addobs(obsf,20,25,8,10,o);
         // addobs(obsf,75,25,8,10,o);
 
@@ -574,9 +574,9 @@ public class map{
         // addobs(obsf,20,30,16,25,c);
         // addobs(obsf,75,30,16,25,c);
         
-        addobs(obsf,50,40,8,10,c);
-        addobs(obsf,20,40,8,10,c);
-        addobs(obsf,75,40,8,10,c);
+        // addobs(obsf,50,40,8,10,c);
+        // addobs(obsf,20,40,8,10,c);
+        // addobs(obsf,75,40,8,10,c);
 
         // addtri(trif,75,25,65,5,85,15,o);
         addtri(trif,55,35,45,15,65,25,c);
