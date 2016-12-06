@@ -8,7 +8,14 @@ import rospy
 import subprocess
 from optparse import OptionParser
 from datetime import datetime
+import time
+import os
+import csv
 
+global filename
+global filetime
+filename = 'rospackage.csv'
+filetime = '2016-12-06'
 def message_to_csv(stream, msg, flatten=False):
     """
     stream: StringIO
@@ -43,13 +50,19 @@ def message_type_to_csv(stream, msg, parent_content_name=""):
 
 def format_csv_filename(form, topic_name):
     global seq
+    temptime = time.strftime("-%Y-%m-%d-%H-%M-%S")
     if form==None:
         return "Convertedbag.csv"
     ret = form.replace('%t', topic_name.replace('/','-'))
-    ret=ret[1:]
+    # n = len(ret)
+    # ret = ret[1:(n-4)] + temptime + ".csv"
+    ret = ret[1:]
+    global filename
+    filename = ret
     return ret
  
 def bag_to_csv(options, fname):
+
     try:
         bag = rosbag.Bag(fname)
         streamdict= dict()
@@ -129,7 +142,6 @@ def main(options):
 
     print("Converting the rosbag format to csv...")
     bag_to_csv(options,files[0])
-
     QtGui.QMessageBox.information(QtGui.QWidget(), "Message", "Convert succeed!!")
 
 if __name__ == '__main__':
@@ -152,5 +164,18 @@ if __name__ == '__main__':
                       help="no header / flatten array value")
     (options, args) = parser.parse_args()
 
-
     main(options)
+    with open(filename) as csvfile:
+        reader = csv.DictReader(csvfile)
+        column = [row['time'] for row in reader]
+    csvfile.close()
+    filetime = column[0][0:19]
+    filetime = filetime.replace('/','-')
+    filetime = filetime.replace(':','-')
+    print filetime
+    n = len(filename)
+    filetime = filename[0:(n-4)] + '-' + filetime + ".csv"
+    print filetime
+        # for row in reader:
+        #     print(row['time'])
+    os.rename(filename,filetime);
